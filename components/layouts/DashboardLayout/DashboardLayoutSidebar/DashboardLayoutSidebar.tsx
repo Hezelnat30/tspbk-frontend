@@ -28,6 +28,7 @@ export default function DashboardLayoutSidebar(
 ) {
   const pathname = usePathname();
   const { isOpen, setOpen, sidebarItems } = props;
+  console.log;
 
   return (
     <Fragment>
@@ -126,7 +127,7 @@ export default function DashboardLayoutSidebar(
       </aside>
       {/* Mobile Navbar */}
       <div className="fixed z-50 flex justify-center items-center bottom-0 left-0 w-full p-4 md:hidden">
-        <nav className="flex bg-primary-yellow w-full max-w-[300px] py-3 rounded-full justify-evenly items-center mx-auto">
+        <nav className="flex bg-primary-yellow w-full max-w-[240px] py-3 rounded-full justify-evenly items-center mx-auto">
           {sidebarItems.map(({ href, icon, key, label }) => (
             <Tooltip
               key={key}
@@ -149,14 +150,6 @@ export default function DashboardLayoutSidebar(
               </Link>
             </Tooltip>
           ))}
-          <Tooltip content="Logout" placement="top" offset={6} showArrow={true}>
-            <button
-              onClick={() => signOut()}
-              className="text-center rounded-full p-2 border-1 border-default-200 hover:bg-primary-lightgray transition-all ease-in-out"
-            >
-              <CgLogOut size={22} />
-            </button>
-          </Tooltip>
         </nav>
       </div>
     </Fragment>

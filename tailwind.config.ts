@@ -15,8 +15,8 @@ const config: Config = {
     extend: {
       colors: {
         primary: {
-          yellow: "#FFA800",
-          lightyellow: "#FFD280",
+          yellow: "#ffc700",
+          lightyellow: "#ffdb59",
           gray: "#2D3748",
           lightgray: "#F7FAFC",
         },

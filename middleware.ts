@@ -2,32 +2,38 @@ import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
 import environment from "./config/environment";
 
+const publicRoutes = ["/signin", "/signup"];
+const protectedRoutes = ["/dashboard"];
+
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
+  const token = await getToken({ req, secret: environment.AUTH_SECRET });
 
-  try {
-    if (pathname.startsWith("/dashboard")) {
-      const token = await getToken({ req, secret: environment.AUTH_SECRET });
+  if ((pathname === "/signin" || pathname === "/signup") && token) {
+    const url = new URL("/dashboard", req.url);
+    return NextResponse.redirect(url);
+  }
 
-      if (!token) {
-        const url = new URL("/signin", req.url);
-        url.searchParams.set("callbackUrl", decodeURIComponent(req.url));
-        return NextResponse.redirect(url);
-      }
-    }
+  const isPublicRoute = publicRoutes.some(
+    (route) => pathname === route || pathname.startsWith(route)
+  );
 
-    if (pathname === "/signin" || pathname === "/signup") {
-      const token = await getToken({ req, secret: environment.AUTH_SECRET });
-      if (token) {
-        return NextResponse.redirect(new URL("/dashboard", req.url));
-      }
-    }
-
-    return NextResponse.next();
-  } catch (error) {
-    console.error("Middleware error:", error);
+  if (isPublicRoute) {
     return NextResponse.next();
   }
+
+  const isProtectedRoute = protectedRoutes.some(
+    (route) => pathname === route || pathname.startsWith(route)
+  );
+
+  if (isProtectedRoute && !token) {
+    const url = new URL("/signin", req.url);
+    const callbackUrl = decodeURIComponent(req.url);
+    url.searchParams.set("callbackUrl", callbackUrl);
+    return NextResponse.redirect(url);
+  }
+
+  return NextResponse.next();
 }
 
 export const config = {

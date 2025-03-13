@@ -1,6 +1,5 @@
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { JWTExtended, SessionExtended, UserExtended } from "@/types/Auth";
 import authServices from "@/services/auth.service";
 import environment from "@/config/environment";
 
@@ -19,7 +18,7 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(
         credentials: Record<"username" | "password", string> | undefined
-      ): Promise<UserExtended | null> {
+      ) {
         const { username, password } = credentials as {
           username: string;
           password: string;
@@ -45,25 +44,13 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async jwt({
-      token,
-      user,
-    }: {
-      token: JWTExtended;
-      user: UserExtended | null;
-    }) {
+    async jwt({ token, user }) {
       if (user) {
         token.user = user;
       }
       return token;
     },
-    async session({
-      session,
-      token,
-    }: {
-      session: SessionExtended;
-      token: JWTExtended;
-    }) {
+    async session({ session, token }) {
       session.user = token.user;
       return session;
     },

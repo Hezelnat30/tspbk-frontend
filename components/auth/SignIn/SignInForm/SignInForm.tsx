@@ -8,7 +8,10 @@ export default function SignInForm() {
   const { handleSubmit, handleSignin, signinStatus, errors, control } =
     useSignin();
   return (
-    <form onSubmit={handleSubmit(handleSignin)} className="max-w-md w-full">
+    <form
+      onSubmit={handleSubmit(handleSignin)}
+      className="max-w-xs md:max-w-md w-full"
+    >
       <InputForm control={control} errors={errors} />
       <Button
         disabled={signinStatus === "pending"}
