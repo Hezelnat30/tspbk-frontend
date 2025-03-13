@@ -11,7 +11,7 @@ export async function middleware(req: NextRequest) {
 
       if (!token) {
         const url = new URL("/signin", req.url);
-        url.searchParams.set("callbackUrl", pathname);
+        url.searchParams.set("callbackUrl", decodeURIComponent(req.url));
         return NextResponse.redirect(url);
       }
     }
@@ -31,5 +31,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/signin", "/signup"],
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
 };
