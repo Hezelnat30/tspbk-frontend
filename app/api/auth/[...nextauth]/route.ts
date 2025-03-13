@@ -5,7 +5,7 @@ import authServices from "@/services/auth.service";
 import { NextRequestWithAuth } from "next-auth/middleware";
 import environment from "@/config/environment";
 
-export const authOptions: NextAuthOptions = {
+const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
     maxAge: 60 * 60 * 24,
