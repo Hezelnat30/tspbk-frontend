@@ -1,7 +1,7 @@
+import { authOptions } from "@/config/auth.config";
 import type { Metadata } from "next";
 import { getServerSession } from "next-auth";
 import { Onest } from "next/font/google";
-import { authOptions } from "./api/auth/[...nextauth]/route";
 import "./globals.css";
 import Providers from "./providers";
 
