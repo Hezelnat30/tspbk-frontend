@@ -13,7 +13,6 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL("/dashboard", req.url));
   }
 
-  // 2. Handle public routes
   const isPublicRoute = publicRoutes.some(
     (route) => pathname === route || pathname.startsWith(`${route}/`)
   );
@@ -22,7 +21,6 @@ export async function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
-  // 3. Handle protected routes
   const isProtectedRoute = protectedRoutes.some(
     (route) => pathname === route || pathname.startsWith(`${route}/`)
   );
