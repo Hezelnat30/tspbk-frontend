@@ -1,4 +1,4 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/config/auth.config";
 import { Button } from "@heroui/react";
 import { getServerSession } from "next-auth";
 

@@ -1,5 +1,4 @@
-// app/lib/auth.config.ts or app/config/auth.config.ts
-import NextAuth, { NextAuthOptions } from "next-auth";
+import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { JWTExtended, SessionExtended, UserExtended } from "@/types/Auth";
 import authServices from "@/services/auth.service";
