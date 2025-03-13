@@ -52,7 +52,7 @@ export default function useSignin() {
         title: "Signin Successfully",
         ...successToasterStyles,
       });
-      router.push(callbackUrl);
+      window.location.href = callbackUrl;
       reset();
     },
   });
