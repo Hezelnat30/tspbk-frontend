@@ -1,6 +1,6 @@
 import environment from "@/config/environment";
-import { SessionExtended } from "@/types/Auth";
 import axios from "axios";
+import { Session } from "next-auth";
 import { getSession } from "next-auth/react";
 
 const headers = {
@@ -15,10 +15,10 @@ const apiInstance = axios.create({
 
 apiInstance.interceptors.request.use(
   async (request) => {
-    const session: SessionExtended | null = await getSession();
+    const session: Session | null = await getSession();
 
-    if (session && session.accessToken) {
-      request.headers.Authorization = `Bearer ${session.accessToken}`;
+    if (session && session.user?.accessToken) {
+      request.headers.Authorization = `Bearer ${session.user?.accessToken}`;
     }
     return request;
   },
