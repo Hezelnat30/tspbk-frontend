@@ -1,12 +1,13 @@
 "use client";
 import nexticon from "@/public/nexticon.svg";
+import { useSidebarStore } from "@/store/sidebar.store";
 import { cn } from "@/utils/cn";
-import { Listbox, ListboxItem, Tooltip } from "@heroui/react";
+import { Tooltip } from "@heroui/react";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import { CgLogOut } from "react-icons/cg";
 import { FaChevronLeft } from "react-icons/fa";
 
@@ -18,8 +19,6 @@ type SidebarItem = {
 };
 
 interface DashboardLayoutSidebarProps {
-  isOpen: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   sidebarItems: SidebarItem[];
 }
 
@@ -27,7 +26,12 @@ export default function DashboardLayoutSidebar(
   props: DashboardLayoutSidebarProps
 ) {
   const pathname = usePathname();
-  const { isOpen, setOpen, sidebarItems } = props;
+  const { sidebarItems } = props;
+  const { isOpen, toggleSidebar, setSidebarOpen } = useSidebarStore();
+
+  useEffect(() => {
+    setSidebarOpen(true);
+  }, []);
 
   return (
     <Fragment>
@@ -40,7 +44,7 @@ export default function DashboardLayoutSidebar(
         )}
       >
         <button
-          onClick={() => setOpen((prev) => !prev)}
+          onClick={toggleSidebar}
           className="p-2 border-1.5 border-default-200 absolute -right-[18px] bg-white rounded-full justify-center !z-50 items-center top-1/2 -translate-y-1/2 shadow-sm hidden lg:flex"
         >
           <FaChevronLeft
@@ -50,16 +54,22 @@ export default function DashboardLayoutSidebar(
             })}
           />
         </button>
-        <div className="flex flex-col justify-between items-center gap-4 h-full py-2">
+        <div className="flex flex-col justify-between items-center gap-4 h-full py-1">
           <div
             className={cn(
-              "w-full text-left flex items-center px-2 py-4 h-16 gap-1.5 border-b-1 border-primary-lightgray"
+              "relative w-full text-left flex items-center p-2 h-10 gap-1.5 "
             )}
           >
+            <span className="absolute left-1/2 -translate-x-1/2 -bottom-4 w-[calc(100%-10px)] h-0.5 bg-primary-lightgray/70 rounded-full"></span>
             <div className="w-[40px] h-[40px] flex-shrink-0">
-              <Image src={nexticon} width={50} height={50} alt="nexticon" />
+              <Image
+                src={nexticon}
+                width={50}
+                height={50}
+                alt="nexticon"
+                priority
+              />
             </div>
-
             <h3
               className={cn(
                 "font-bold text-xl uppercase text-left origin-left transition-all ease-in-out",
@@ -71,37 +81,28 @@ export default function DashboardLayoutSidebar(
               Tracking Project
             </h3>
           </div>
-          <Listbox
-            items={sidebarItems}
-            className="flex-1"
-            aria-label="dashboard-sidebar"
-          >
-            {(item) => (
-              <ListboxItem
-                key={item.key}
-                startContent={<div className={cn("px-1.5")}>{item.icon}</div>}
-                href={item.href}
-                as={Link}
-                aria-labelledby={item.label}
-                aria-describedby={item.label}
+          <div className="w-full mt-4 px-1 flex-1 flex flex-col gap-2">
+            {sidebarItems.map(({ href, icon, key, label }) => (
+              <Link
+                key={key}
+                href={href}
                 className={cn(
-                  "h-12 my-1 space-x-0.5 overflow-hidden hover:!bg-primary-lightgray/70 transition-all ease-in-out duration-200",
+                  "h-12 overflow-hidden transition-all ease-in-out duration-200 flex justify-start px-3.5 items-center gap-2 hover:bg-primary-lightgray w-full rounded-lg",
                   {
-                    "bg-white": pathname.startsWith(item.href),
+                    "bg-white": pathname === href,
                   }
                 )}
               >
-                <p className="text-base origin-left transition-all duration-200 ease-in-out">
-                  {item.label}
-                </p>
-              </ListboxItem>
-            )}
-          </Listbox>
+                <div className="w-[22px] flex justify-center">{icon}</div>
+                {isOpen && <p className="text-base ml-2">{label}</p>}
+              </Link>
+            ))}
+          </div>
           <div className={cn("flex items-center px-1 w-full")}>
             <button
               onClick={() => signOut()}
               className={cn(
-                "h-12 hover:bg-primary-lightgray text-base flex items-center justify-start bg-transparent text-left overflow-hidden transition-all ease-in-out duration-200 w-full rounded-xl px-4"
+                "h-12 hover:bg-primary-lightgray text-base flex items-center justify-start bg-transparent text-left overflow-hidden transition-all ease-in-out duration-200 w-full rounded-lg px-3.5"
               )}
             >
               <div className="w-[22px] flex justify-center">
@@ -135,7 +136,10 @@ export default function DashboardLayoutSidebar(
                 key={key}
                 href={href}
                 className={cn(
-                  "text-center rounded-full p-2 border-1 border-white hover:bg-primary-lightgray transition-all ease-in-out"
+                  "text-center rounded-full p-2 border-1 border-white hover:bg-primary-lightgray transition-all ease-in-out",
+                  {
+                    "bg-white": href === pathname,
+                  }
                 )}
               >
                 {icon}

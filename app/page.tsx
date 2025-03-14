@@ -1,11 +1,6 @@
-import { authOptions } from "@/config/auth.config";
+import { useSumStore } from "@/store/sidebar.store";
 import { Button } from "@heroui/react";
-import { getServerSession } from "next-auth";
-
-export default async function Home() {
-  const session = await getServerSession(authOptions);
-
-  console.log({ session });
+export default function Home() {
   return (
     <div className="w-full min-h-screen">
       <div className="flex flex-col min-h-screen gap-2 w-full justify-center items-center">
