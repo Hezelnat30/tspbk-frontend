@@ -5,14 +5,7 @@ import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import { CgLogOut } from "react-icons/cg";
 
-interface DashboardLayoutTopbarProps {
-  isDashboard: boolean;
-}
-
-export default function DashboardLayoutTopbar(
-  props: DashboardLayoutTopbarProps
-) {
-  const { isDashboard } = props;
+export default function DashboardLayoutTopbar() {
   const { data: session } = useSession();
   const role = session?.user?.role;
   const username = capitalizeFirstLetter(session?.user?.username);
