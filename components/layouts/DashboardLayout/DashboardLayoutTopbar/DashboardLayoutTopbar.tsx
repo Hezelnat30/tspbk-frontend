@@ -1,12 +1,18 @@
 "use client";
-
 import userpic from "@/public/userpicdummy.jpg";
 import { capitalizeFirstLetter } from "@/utils";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import { CgLogOut } from "react-icons/cg";
 
-export default function DashboardLayoutTopbar() {
+interface DashboardLayoutTopbarProps {
+  isDashboard: boolean;
+}
+
+export default function DashboardLayoutTopbar(
+  props: DashboardLayoutTopbarProps
+) {
+  const { isDashboard } = props;
   const { data: session } = useSession();
   const role = session?.user?.role;
   const username = capitalizeFirstLetter(session?.user?.username);
@@ -29,10 +35,7 @@ export default function DashboardLayoutTopbar() {
           />
         </div>
       </div>
-      <button
-        onClick={() => signOut()}
-        className="md:hidden text-center p-2 hover:bg-primary-lightgray transition-all ease-in-out"
-      >
+      <button onClick={() => signOut()} className="md:hidden text-center p-2">
         <CgLogOut size={22} />
       </button>
     </div>

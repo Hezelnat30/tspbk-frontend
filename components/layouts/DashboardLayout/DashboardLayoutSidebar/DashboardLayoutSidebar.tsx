@@ -6,7 +6,7 @@ import { signOut } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { CgLogOut } from "react-icons/cg";
 import { FaChevronLeft } from "react-icons/fa";
 
@@ -28,7 +28,11 @@ export default function DashboardLayoutSidebar(
 ) {
   const pathname = usePathname();
   const { isOpen, setOpen, sidebarItems } = props;
-  console.log;
+  const [isActiveMenu, setIsActiveMenu] = useState<string>(pathname);
+
+  useEffect(() => {
+    setIsActiveMenu(pathname);
+  }, [pathname]);
 
   return (
     <Fragment>
@@ -88,15 +92,11 @@ export default function DashboardLayoutSidebar(
                 className={cn(
                   "h-12 my-1 space-x-0.5 overflow-hidden hover:!bg-primary-lightgray/70 transition-all ease-in-out duration-200",
                   {
-                    "bg-white": pathname.startsWith(item.href),
+                    "!bg-white": pathname === item.href,
                   }
                 )}
               >
-                <p
-                  className={cn(
-                    "text-base origin-left transition-all duration-200 ease-in-out"
-                  )}
-                >
+                <p className="text-base origin-left transition-all duration-200 ease-in-out">
                   {item.label}
                 </p>
               </ListboxItem>
@@ -142,7 +142,7 @@ export default function DashboardLayoutSidebar(
                 className={cn(
                   "text-center rounded-full p-2 border-1 border-white hover:bg-primary-lightgray transition-all ease-in-out",
                   {
-                    "bg-white": pathname.startsWith(href),
+                    "!bg-white": pathname.startsWith(href),
                   }
                 )}
               >
