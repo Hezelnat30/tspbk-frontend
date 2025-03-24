@@ -21,7 +21,11 @@ export default function SignInForm() {
         })}
         fullWidth
       >
-        {signinStatus === "pending" ? <Spinner size="sm" /> : "Sign In"}
+        {signinStatus === "pending" ? (
+          <Spinner size="sm" color="white" />
+        ) : (
+          "Sign In"
+        )}
       </Button>
     </form>
   );

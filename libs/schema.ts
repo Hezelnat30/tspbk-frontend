@@ -6,3 +6,12 @@ export const signinSchema = yup.object().shape({
 });
 
 export const signupSchema = signinSchema;
+
+export const addSongSchema = yup.object().shape({
+  title: yup.string().required("Title is required"),
+  artist: yup.string().required("Artist is required"),
+  youtubeUrl: yup.string().required("Youtube URL is required"),
+  chordImageUrl: yup
+    .mixed<FileList | string>()
+    .required("Please upload a chord image"),
+});

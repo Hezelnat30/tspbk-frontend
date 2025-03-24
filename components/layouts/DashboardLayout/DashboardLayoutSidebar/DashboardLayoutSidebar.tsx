@@ -45,7 +45,7 @@ export default function DashboardLayoutSidebar(
       >
         <button
           onClick={toggleSidebar}
-          className="p-2 border-1.5 border-default-200 absolute -right-[18px] bg-white rounded-full justify-center !z-50 items-center top-1/2 -translate-y-1/2 shadow-sm hidden lg:flex"
+          className="p-1 border-1.5 border-default-300 absolute -right-3 bg-white rounded-full justify-center !z-50 items-center top-1/2 -translate-y-1/2 shadow-sm hidden lg:flex"
         >
           <FaChevronLeft
             size={18}

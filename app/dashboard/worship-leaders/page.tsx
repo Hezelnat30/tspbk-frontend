@@ -1,7 +1,7 @@
 export default function WorshipLeaders() {
   return (
-    <div>
+    <section>
       <h3>Worship Leaders</h3>
-    </div>
+    </section>
   );
 }
