@@ -10,7 +10,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="max-w-screen-3xl flex min-h-screen gap-4 p-4 overflow-hidden 3xl:container bg-primary-lightgray">
+    <div className="max-w-screen-3xl flex min-h-screen gap-4 p-4 overflow-hidden 3xl:container bg-[#f9fdff]">
       <DashboardLayoutSidebar sidebarItems={sidebarItems} />
       <div className="h-[calc(100vh-2rem)] w-full">
         <DashboardLayoutTopbar />

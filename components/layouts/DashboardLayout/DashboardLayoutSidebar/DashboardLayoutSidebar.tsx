@@ -38,7 +38,7 @@ export default function DashboardLayoutSidebar(
       {/* Desktop Sidebar */}
       <aside
         className={cn(
-          "fixed z-40 max-w-[300px] min-h-[calc(100vh-2rem)] w-full border-1 shadow border-default-200 bg-primary-yellow p-3 transition-all ease-in-out duration-200 lg:relative lg:translate-x-0 rounded-xl md:block hidden",
+          "fixed z-40 max-w-[300px] min-h-[calc(100vh-2rem)] w-full shadow-md bg-white p-3 transition-all ease-in-out duration-200 lg:relative lg:translate-x-0 rounded-xl md:block hidden",
           { "translate-x-0": isOpen },
           { "max-w-[83px]": !isOpen }
         )}
@@ -87,9 +87,9 @@ export default function DashboardLayoutSidebar(
                 key={key}
                 href={href}
                 className={cn(
-                  "h-12 overflow-hidden transition-all ease-in-out duration-200 flex justify-start px-3.5 items-center gap-2 hover:bg-primary-lightgray w-full rounded-lg",
+                  "h-12 overflow-hidden transition-all ease-in-out duration-200 flex justify-start px-3.5 items-center gap-2 hover:bg-primary-lightyellow w-full rounded-lg",
                   {
-                    "bg-white": pathname === href,
+                    "bg-primary-yellow": pathname === href,
                   }
                 )}
               >

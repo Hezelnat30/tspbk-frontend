@@ -38,7 +38,8 @@ export default function BottomContent(props: BottomContentProps) {
         {totalPages > 1 && (
           <Pagination
             classNames={{
-              cursor: "bg-primary-yellow hover:bg-primary-yellow",
+              cursor:
+                "bg-primary-yellow hover:bg-primary-lightyellow text-black",
             }}
             isCompact
             showControls

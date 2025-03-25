@@ -1,8 +1,16 @@
 import { cn } from "@/utils/cn";
-import { Button, Spinner } from "@heroui/react";
+import { Spinner } from "@heroui/react";
 import Image from "next/image";
-import { ChangeEvent, useEffect, useId, useRef } from "react";
-import { CiSaveUp2, CiTrash } from "react-icons/ci";
+import {
+  ChangeEvent,
+  useCallback,
+  useEffect,
+  useId,
+  useRef,
+  useState,
+} from "react";
+import { CiSaveUp2 } from "react-icons/ci";
+import { FaTrashCan } from "react-icons/fa6";
 
 interface InputFileProps {
   errorMessage?: string;
@@ -17,6 +25,7 @@ interface InputFileProps {
 }
 
 export default function InputFile(props: InputFileProps) {
+  const [isLoadingPreview, setIsLoadingPreview] = useState<boolean>(false);
   const {
     errorMessage,
     isDropable = false,
@@ -31,21 +40,25 @@ export default function InputFile(props: InputFileProps) {
   const drop = useRef<HTMLLabelElement>(null);
   const dropzoneId = useId();
 
-  const handleDragOver = (e: DragEvent) => {
-    if (isDropable) {
+  const handleDragOver = useCallback(
+    (e: DragEvent) => {
+      if (isDropable) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    },
+    [isDropable]
+  );
+
+  const handleDrop = useCallback(
+    (e: DragEvent) => {
       e.preventDefault();
-      e.stopPropagation();
-    }
-  };
-
-  const handleDrop = (e: DragEvent) => {
-    e.preventDefault();
-    const files = e.dataTransfer?.files;
-
-    if (files && onUpload) {
-      onUpload(files);
-    }
-  };
+      if (e.dataTransfer?.files && onUpload) {
+        onUpload(e.dataTransfer.files);
+      }
+    },
+    [onUpload]
+  );
 
   useEffect(() => {
     const dropCurrent = drop.current;
@@ -57,45 +70,53 @@ export default function InputFile(props: InputFileProps) {
       dropCurrent?.removeEventListener("dragover", handleDragOver);
       dropCurrent?.removeEventListener("drop", handleDrop);
     };
-  }, []);
+  }, [handleDragOver, handleDrop]);
 
-  const handleOnUpload = (e: ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (files && files.length > 0) {
-      if (files && onUpload) {
-        onUpload(files);
+  const handleOnUpload = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      if (e.target.files && onUpload) {
+        onUpload(e.target.files);
       }
-    }
-  };
+    },
+    [onUpload]
+  );
 
   return (
     <div>
       <label
+        ref={drop}
         htmlFor={`dropzone-file-${dropzoneId}`}
         className={cn(
-          "flex min-h-24 max-w-sm w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 transition-all ease-in-out hover:bg-gray-100",
+          "flex min-h-24 max-w-md w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 transition-all ease-in-out hover:bg-gray-100",
           {
             "border-danger-500": isError,
           }
         )}
       >
         {preview && (
-          <div className="relative flex flex-col items-center justify-center p-5">
+          <div className="relative flex flex-col items-center justify-center p-4">
             <div className="mb-2">
-              <Image src={preview} fill alt="preview" className="!relative" />
+              <Image
+                src={preview}
+                fill
+                alt="preview"
+                className="!relative rounded"
+                onLoad={() => setIsLoadingPreview(true)}
+              />
             </div>
-            <Button
-              onPress={onDelete}
-              disabled={isDeleting}
-              isIconOnly
-              className="absolute right-2 top-2 flex h-9 w-9 items-center justify-center rounded bg-danger-100"
-            >
-              {isDeleting ? (
-                <Spinner size="sm" color="danger" />
-              ) : (
-                <CiTrash className="h-5 w-5 text-danger-500" />
-              )}
-            </Button>
+            {isLoadingPreview && (
+              <button
+                onClick={onDelete}
+                disabled={isDeleting}
+                className="absolute right-6 top-6 flex h-9 w-9 items-center justify-center rounded bg-danger-100 hover:scale-95 transition-all ease-in-out duration-200"
+              >
+                {isDeleting ? (
+                  <Spinner size="sm" color="warning" />
+                ) : (
+                  <FaTrashCan className="h-5 w-5 text-danger-600" />
+                )}
+              </button>
+            )}
           </div>
         )}
         {!preview && !isUploading && (
@@ -110,7 +131,7 @@ export default function InputFile(props: InputFileProps) {
         )}
         {isUploading && (
           <div className="flex flex-col items-center justify-center p-5">
-            <Spinner color="danger" />
+            <Spinner size="md" color="warning" />
           </div>
         )}
         <input

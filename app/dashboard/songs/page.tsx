@@ -16,6 +16,7 @@ export default function Songs() {
   const {
     currentLimit,
     currentPage,
+    currentSearch,
     setURL,
     dataSong,
     handleChangeLimit,
@@ -109,6 +110,7 @@ export default function Songs() {
       <DataTable
         columns={COLUMN_LIST_SONGS}
         currentPage={Number(currentPage)}
+        currentSearch={currentSearch}
         data={Array.isArray(dataSong?.data) ? dataSong?.data : []}
         isLoading={isLoadingSong || isRefetchingSong}
         name="song"

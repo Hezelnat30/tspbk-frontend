@@ -15,6 +15,7 @@ import TopContent from "./TopContent";
 interface DataTableProps {
   columns: Record<string, unknown>[];
   currentPage: number;
+  currentSearch: string;
   data: Record<string, unknown>[];
   isLoading?: boolean;
   limit: string;
@@ -32,6 +33,7 @@ export default function DataTable(props: DataTableProps) {
   const {
     columns,
     currentPage,
+    currentSearch,
     data,
     isLoading,
     limit,
@@ -59,6 +61,7 @@ export default function DataTable(props: DataTableProps) {
       bottomContentPlacement="outside"
       topContent={
         <TopContent
+          currentSearch={currentSearch}
           onClearSearch={onClearSearch}
           onChangeSearch={onChangeSearch}
           onClickButtonTopContent={onClickButtonTopContent}

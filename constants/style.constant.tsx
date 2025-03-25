@@ -14,7 +14,7 @@ const customInputStyles = {
     "border-0",
     "h-14",
     "shadow-none",
-    "!ring-0",
+    // "!ring-0",
     "hover:bg-white !important",
     "data-[hover=true]:bg-white !important",
     "group-data-[hover=true]:bg-white !important",
