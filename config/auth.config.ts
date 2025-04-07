@@ -6,7 +6,7 @@ import environment from "@/config/environment";
 export const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
-    maxAge: 60 * 60 * 24,
+    maxAge: 4 * 60 * 60,
   },
   secret: environment.AUTH_SECRET,
   providers: [

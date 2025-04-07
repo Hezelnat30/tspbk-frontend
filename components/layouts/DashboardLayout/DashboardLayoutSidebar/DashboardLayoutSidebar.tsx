@@ -33,6 +33,18 @@ export default function DashboardLayoutSidebar(
     setSidebarOpen(true);
   }, []);
 
+  const isActive = (itemHref: string, currentPath: string) => {
+    if (itemHref === "/dashboard" && currentPath === "/dashboard") {
+      return true;
+    }
+
+    if (itemHref !== "/dashboard" && currentPath.startsWith(itemHref)) {
+      return true;
+    }
+
+    return false;
+  };
+
   return (
     <Fragment>
       {/* Desktop Sidebar */}
@@ -60,7 +72,7 @@ export default function DashboardLayoutSidebar(
               "relative w-full text-left flex items-center p-2 h-10 gap-1.5 "
             )}
           >
-            <span className="absolute left-1/2 -translate-x-1/2 -bottom-4 w-[calc(100%-10px)] h-0.5 bg-primary-lightgray/70 rounded-full"></span>
+            <span className="absolute left-1/2 -translate-x-1/2 -bottom-4 w-[calc(100%-10px)] h-0.5 bg-gray-200 rounded-full"></span>
             <div className="w-[40px] h-[40px] flex-shrink-0">
               <Image
                 src={nexticon}
@@ -89,7 +101,7 @@ export default function DashboardLayoutSidebar(
                 className={cn(
                   "h-12 overflow-hidden transition-all ease-in-out duration-200 flex justify-start px-3.5 items-center gap-2 hover:bg-primary-lightyellow w-full rounded-lg",
                   {
-                    "bg-primary-yellow": pathname === href,
+                    "bg-primary-yellow": isActive(href, pathname),
                   }
                 )}
               >
@@ -138,7 +150,7 @@ export default function DashboardLayoutSidebar(
                 className={cn(
                   "text-center rounded-full p-2 border-1 border-white hover:bg-primary-lightgray transition-all ease-in-out",
                   {
-                    "bg-white": href === pathname,
+                    "bg-white": isActive(href, pathname),
                   }
                 )}
               >

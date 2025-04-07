@@ -6,6 +6,6 @@ interface Song {
   chordImageUrl: FileList | string;
 }
 
-type ISong = Omit<Song, "_id">;
+type ISong = Partial<Omit<Song, "_id">>;
 
 export type { Song, ISong };

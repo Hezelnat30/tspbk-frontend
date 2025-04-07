@@ -13,5 +13,17 @@ export const addSongSchema = yup.object().shape({
   youtubeUrl: yup.string().required("Youtube URL is required"),
   chordImageUrl: yup
     .mixed<FileList | string>()
-    .required("Please upload a chord image"),
+    .required("Chord image is required"),
+});
+
+export const updateChordSchema = yup.object().shape({
+  chordImageUrl: yup
+    .mixed<FileList | string>()
+    .required("Chord image is required"),
+});
+
+export const updateInfoSchema = yup.object().shape({
+  title: yup.string().required("Title is required"),
+  artist: yup.string().required("Artist is required"),
+  youtubeUrl: yup.string().required("Youtube URL is required"),
 });

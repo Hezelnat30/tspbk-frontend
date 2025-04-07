@@ -3,6 +3,7 @@ import { Spinner } from "@heroui/react";
 import Image from "next/image";
 import {
   ChangeEvent,
+  Fragment,
   useCallback,
   useEffect,
   useId,
@@ -82,19 +83,19 @@ export default function InputFile(props: InputFileProps) {
   );
 
   return (
-    <div>
+    <Fragment>
       <label
         ref={drop}
         htmlFor={`dropzone-file-${dropzoneId}`}
         className={cn(
-          "flex min-h-24 max-w-md w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 transition-all ease-in-out hover:bg-gray-100",
+          "flex min-h-24 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 transition-all ease-in-out hover:bg-gray-100",
           {
             "border-danger-500": isError,
           }
         )}
       >
         {preview && (
-          <div className="relative flex flex-col items-center justify-center p-4">
+          <div className="relative w-full flex flex-col items-center justify-center p-4">
             <div className="mb-2">
               <Image
                 src={preview}
@@ -108,7 +109,7 @@ export default function InputFile(props: InputFileProps) {
               <button
                 onClick={onDelete}
                 disabled={isDeleting}
-                className="absolute right-6 top-6 flex h-9 w-9 items-center justify-center rounded bg-danger-100 hover:scale-95 transition-all ease-in-out duration-200"
+                className="absolute right-2 top-2 flex h-9 w-9 items-center justify-center rounded bg-danger-100 hover:scale-95 transition-all ease-in-out duration-200"
               >
                 {isDeleting ? (
                   <Spinner size="sm" color="warning" />
@@ -151,6 +152,6 @@ export default function InputFile(props: InputFileProps) {
       {isError && (
         <p className="mt-2 text-sm text-danger-500">{errorMessage}</p>
       )}
-    </div>
+    </Fragment>
   );
 }

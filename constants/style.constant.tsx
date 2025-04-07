@@ -33,7 +33,7 @@ const successToasterStyles: Partial<ToastProps> = {
   size: "sm",
   icon: <BiUserCheck />,
   classNames: {
-    base: cn(["max-w-xs", "h-14", "top-6"]),
+    base: cn(["max-w-xs", "h-14", "top-0.5"]),
     closeButton: "opacity-100 absolute right-4 top-1/2 -translate-y-1/2",
   },
   closeIcon: <IoClose />,
@@ -47,7 +47,21 @@ const errorToasterStyles: Partial<ToastProps> = {
   size: "sm",
   icon: <GiCancel />,
   classNames: {
-    base: cn(["max-w-xs", "h-14", "top-6"]),
+    base: cn(["max-w-xs", "h-14", "top-0.5"]),
+    closeButton: "opacity-100 absolute right-4 top-1/2 -translate-y-1/2",
+  },
+  closeIcon: <IoClose />,
+};
+
+const warningToasterStyles: Partial<ToastProps> = {
+  timeout: 3000,
+  shouldShowTimeoutProgress: true,
+  color: "warning",
+  variant: "bordered",
+  size: "sm",
+  icon: <GiCancel />,
+  classNames: {
+    base: cn(["max-w-xs", "h-14", "top-0.5"]),
     closeButton: "opacity-100 absolute right-4 top-1/2 -translate-y-1/2",
   },
   closeIcon: <IoClose />,
@@ -64,4 +78,5 @@ export {
   errorToasterStyles,
   listBoxItemStyles,
   successToasterStyles,
+  warningToasterStyles,
 };

@@ -10,6 +10,15 @@ const songService = {
     apiInstance.get(`${SONG}s?${params}`),
   addSong: (payload: ISong): Promise<AxiosResponse<ApiResponse<Song>>> =>
     apiInstance.post(`${SONG}/add`, payload),
+  getSongById: (id: string): Promise<AxiosResponse<ApiResponse<Song>>> =>
+    apiInstance.get(`${SONG}/${id}`),
+  updateSong: (
+    payload: ISong,
+    id: string
+  ): Promise<AxiosResponse<ApiResponse<Song>>> =>
+    apiInstance.put(`${SONG}/update/${id}`, payload),
+  deleteSong: (id: string): Promise<AxiosResponse<ApiResponse<Song>>> =>
+    apiInstance.delete(`${SONG}/delete/${id}`),
 };
 
 export default songService;

@@ -4,10 +4,9 @@ import useDebounce from "@/hooks/useDebounce";
 import songService from "@/services/song.service";
 import { useQuery } from "@tanstack/react-query";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent } from "react";
 
 export default function useSongs() {
-  const [selectedSong, setSelectedSong] = useState<string>("");
   const router = useRouter();
   const debounce = useDebounce();
   const pathname = usePathname();
@@ -92,7 +91,5 @@ export default function useSongs() {
     handleClearSearch,
     refetchSong,
     setURL,
-    selectedSong,
-    setSelectedSong,
   };
 }

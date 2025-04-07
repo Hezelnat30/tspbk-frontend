@@ -1,7 +1,10 @@
 "use client";
 import AddSongModal from "@/components/songs/AddSongModal/AddSongModal";
+import DeleteSongModal from "@/components/songs/DeleteSongModal";
+import ShowChordModal from "@/components/songs/ShowChordModal";
 import DataTable from "@/components/ui/DataTable";
 import { COLUMN_LIST_SONGS } from "@/constants/songs.constant";
+import { useSongStore } from "@/store/song.store";
 import { Tooltip, useDisclosure } from "@heroui/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -13,6 +16,7 @@ import useSongs from "./useSongs";
 
 export default function Songs() {
   const { push } = useRouter();
+  const { setSelectedSong } = useSongStore();
   const {
     currentLimit,
     currentPage,
@@ -26,8 +30,6 @@ export default function Songs() {
     isLoadingSong,
     isRefetchingSong,
     refetchSong,
-    selectedSong,
-    setSelectedSong,
   } = useSongs();
 
   useEffect(() => {
@@ -38,6 +40,8 @@ export default function Songs() {
   }, []);
 
   const addSongModal = useDisclosure();
+  const deleteSongModal = useDisclosure();
+  const showChordModal = useDisclosure();
 
   const renderCell = useCallback(
     (songs: Record<string, unknown>, columnKey: Key): ReactNode => {
@@ -55,7 +59,13 @@ export default function Songs() {
           return (
             <div className="w-full flex justify-center items-center">
               <Tooltip content="View Chord" showArrow>
-                <button className="text-lg text-default-400 cursor-pointer">
+                <button
+                  onClick={() => {
+                    showChordModal.onOpen();
+                    setSelectedSong(`${songs._id}`);
+                  }}
+                  className="text-lg text-default-400 cursor-pointer"
+                >
                   <FaEye />
                 </button>
               </Tooltip>
@@ -65,12 +75,9 @@ export default function Songs() {
         case "actions":
           return (
             <div className="flex items-center gap-4 justify-center w-full px-4">
-              <Tooltip content="Edit song" showArrow={true}>
+              <Tooltip content="Detail Song" showArrow={true}>
                 <button
-                  onClick={() => {
-                    setSelectedSong(`${songs._id}`);
-                    push(`/dashboard/songs/${songs._id}`);
-                  }}
+                  onClick={() => push(`/dashboard/songs/${songs._id}`)}
                   className="text-lg text-default-400 cursor-pointer active:opacity-50"
                 >
                   <AiOutlineEdit />
@@ -78,7 +85,10 @@ export default function Songs() {
               </Tooltip>
               <Tooltip color="danger" content="Delete song" showArrow={true}>
                 <button
-                  onClick={() => setSelectedSong(`${songs._id}`)}
+                  onClick={() => {
+                    deleteSongModal.onOpen();
+                    setSelectedSong(`${songs._id}`);
+                  }}
                   className="text-lg text-danger cursor-pointer active:opacity-50"
                 >
                   <GoTrash />
@@ -121,9 +131,11 @@ export default function Songs() {
         onClearSearch={handleClearSearch}
         onClickButtonTopContent={addSongModal.onOpen}
         renderCell={renderCell}
-        totalPages={dataSong?.pagination?.totalData ?? 0}
+        totalPages={dataSong?.pagination?.totalPages ?? 0}
       />
       <AddSongModal {...addSongModal} refetchSong={refetchSong} />
+      <DeleteSongModal {...deleteSongModal} refetchSong={refetchSong} />
+      <ShowChordModal {...showChordModal} />
     </section>
   );
 }
